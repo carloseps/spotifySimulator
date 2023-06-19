@@ -18,7 +18,7 @@ No desenvolvimento desse projeto, foram aplicados conhecimentos técnicos sobre:
 
 - **Algoritmos de ordenação**: Utilizamos algoritmos de ordenação para classificar as listas de músicas e playlists de acordo com critérios específicos, como nome, mais ouvidas, etc. Isso permite que o usuário tenha uma visualização organizada e fácil de navegar.
 
-- **Filas e Pilhas**: As filas e pilhas são estruturas de dados importantes utilizadas em diferentes partes do projeto. Por exemplo, podemos utilizar uma fila para gerenciar a ordem das playlists de um usuário. Já as pilhas podem ser usadas para organizar a playlist de forma a ordenar e listar as músicas nela contidas.
+- **Filas**: As filas serão um TAD utilizado para armazenar a fila de reprodução de músicas do usuário.
 
 - **Listas Encadeadas e Nós**: As listas encadeadas são estruturas de dados dinâmicas que podem ser usadas para armazenar e manipular listas de músicas e playlists. Cada elemento da lista é representado por um nó, contendo os dados e uma referência para o próximo nó. Essa estrutura permite adicionar, remover e percorrer os elementos de forma eficiente.
 
