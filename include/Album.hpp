@@ -14,7 +14,7 @@ private:
   std::chrono::system_clock::time_point releaseDate;
 
 public:
-  Album(){};
+  Album() {};
   Album(int, std::string, long, LinkedList<Track>, Artist, std::chrono::system_clock::time_point);
 
   ~Album();
