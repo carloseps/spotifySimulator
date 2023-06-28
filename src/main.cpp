@@ -1,6 +1,7 @@
 #include <iostream>
 #include <curl/curl.h>
-#include <Album.hpp>
+#include "../lib/nlohmann/json.hpp"
+// #include <nlohmann/json.hpp>
 
 // g++ -Iinclude -Llib -lcurl src/main.cpp -o bin/main
 
@@ -24,7 +25,9 @@ int main(int argc, char const *argv[])
         res = curl_easy_perform(curl);
         curl_easy_cleanup(curl);
 
-        std::cout << readBuffer << std::endl;
+        nlohmann::json jsonData = nlohmann::json::parse(readBuffer);
+
+        std::cout << jsonData["id"] << std::endl;
     }
 
     return 0;
