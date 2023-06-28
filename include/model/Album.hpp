@@ -1,10 +1,10 @@
 #if !defined(ALBUM_HPP)
 #define ALBUM_HPP
 
-#include "../include/TrackList.hpp"
-#include "../include/Artist.hpp"
-#include "../include/LinkedList.hpp"
-#include "../include/Track.hpp"
+#include "../include/model/TrackList.hpp"
+#include "../include/model/Artist.hpp"
+#include "../include/model/LinkedList.hpp"
+#include "../include/model/Track.hpp"
 #include <chrono>
 
 class Album : public TrackList

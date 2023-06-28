@@ -1,41 +1,36 @@
-#include <iostream>
+#if !defined(AUTH_CONTROLLER_HPP)
+#define AUTH_CONTROLLER_HPP
+
 #include <curl/curl.h>
-#include "../lib/nlohmann/json.hpp"
-// #include <nlohmann/json.hpp>
+#include "../../lib/nlohmann/json.hpp"
+#include "../model/AuthenticationToken.hpp"
+#include <iostream>
 
-// g++ -Iinclude -Llib -lcurl src/main.cpp -o bin/main
-
-static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp){
-    ((std::string*)userp)->append((char*)contents, size * nmemb);
-    return size * nmemb;
+size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::string* response) {
+  size_t totalSize = size * nmemb;
+  response->append(static_cast<char*>(contents), totalSize);
+  return totalSize;
 }
 
-int main(int argc, char const *argv[])
+class AuthController
 {
-    // CURL * curl;
-    // CURLcode res;
-    // std::string readBuffer;
+private:
+    AuthenticationToken *token;
+public:
+    AuthController() {};
+    ~AuthController() {};
 
-    // curl = curl_easy_init();
-    // if (curl)
-    // {
-    //     curl_easy_setopt(curl, CURLOPT_URL, "https://pokeapi.co/api/v2/pokemon/pikachu");
-    //     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-    //     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
-    //     res = curl_easy_perform(curl);
-    //     curl_easy_cleanup(curl);
-
-    //     nlohmann::json jsonData = nlohmann::json::parse(readBuffer);
-
-    //     std::cout << jsonData["id"] << std::endl;
-    // }
-
-    CURL *curl = curl_easy_init();
+    void getToken()
+    {
+        // TO DO: checar se o token já expirou, caso sim, pegar um novo token
+        if (token == nullptr)
+        {
+            CURL *curl = curl_easy_init();
 
             if (curl)
             {
                 // Set the target URL
-                curl_easy_setopt(curl, CURLOPT_URL, "https://accounts.spotify.com/api/token");
+                curl_easy_setopt(curl, CURLOPT_URL, "http://example.com/api/endpoint");
 
                 // Set the request type to POST
                 curl_easy_setopt(curl, CURLOPT_POST, 1L);
@@ -90,6 +85,8 @@ int main(int argc, char const *argv[])
                 curl_easy_cleanup(curl);
                 curl_slist_free_all(headers);
             }
+        }
+    }
+};
 
-    return 0;
-}
+#endif // AUTH_CONTROLLER_HPP
