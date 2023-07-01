@@ -6,19 +6,21 @@
 #include "../model/AuthenticationToken.hpp"
 #include <iostream>
 
-size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::string* response) {
-  size_t totalSize = size * nmemb;
-  response->append(static_cast<char*>(contents), totalSize);
-  return totalSize;
+size_t WriteCallback(void *contents, size_t size, size_t nmemb, std::string *response)
+{
+    size_t totalSize = size * nmemb;
+    response->append(static_cast<char *>(contents), totalSize);
+    return totalSize;
 }
 
 class AuthController
 {
 private:
     AuthenticationToken *token;
+
 public:
-    AuthController() {};
-    ~AuthController() {};
+    AuthController(){};
+    ~AuthController(){};
 
     void getToken()
     {
@@ -43,8 +45,10 @@ public:
 
                 // Encode the form data
                 std::string encodedData;
-                for (const auto& pair : formData) {
-                    if (!encodedData.empty()) {
+                for (const auto &pair : formData)
+                {
+                    if (!encodedData.empty())
+                    {
                         encodedData += "&";
                     }
                     encodedData += pair.first + "=" + pair.second;
@@ -69,7 +73,7 @@ public:
                 // Check for errors
                 if (res != CURLE_OK)
                 {
-                std::cerr << "cURL request failed: " << curl_easy_strerror(res) << std::endl;
+                    std::cerr << "cURL request failed: " << curl_easy_strerror(res) << std::endl;
                 }
 
                 // Parse the response as JSON
