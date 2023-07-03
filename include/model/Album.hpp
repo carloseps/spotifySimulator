@@ -1,10 +1,10 @@
 #if !defined(ALBUM_HPP)
 #define ALBUM_HPP
 
-#include "../include/model/TrackList.hpp"
-#include "../include/model/Artist.hpp"
-#include "../include/model/LinkedList.hpp"
-#include "../include/model/Track.hpp"
+#include <TrackList.hpp>
+#include <Artist.hpp>
+#include <LinkedList.hpp>
+#include <Track.hpp>
 #include <chrono>
 
 class Album : public TrackList
@@ -14,7 +14,7 @@ private:
   std::chrono::system_clock::time_point releaseDate;
 
 public:
-  Album() {};
+  Album();
   Album(int, std::string, long, LinkedList<Track>, Artist, std::chrono::system_clock::time_point);
 
   ~Album();

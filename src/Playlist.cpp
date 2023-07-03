@@ -1,13 +1,11 @@
-#include "../include/Playlist.hpp"
+#include <Playlist.hpp>
+
+Playlist::Playlist() {}
 
 Playlist::Playlist(int id, std::string name, long duration, LinkedList<Track> tracks, User owner, PrivacyState privacyState, std::chrono::system_clock::time_point createdAt)
-    : TrackList(id, name, duration, tracks), owner(owner), privacyState(privacyState), createdAt(createdAt)
-{
-}
+    : TrackList(id, name, duration, tracks), owner(owner), privacyState(privacyState), createdAt(createdAt) {}
 
-Playlist::~Playlist()
-{
-}
+Playlist::~Playlist() {}
 
 User Playlist::getOwner() const
 {
@@ -41,10 +39,10 @@ void Playlist::setCreatedAt(const std::chrono::system_clock::time_point createdA
 
 bool Playlist::addTrack(const Track track)
 {
-    return TrackList::addTrack(track);
+    return false;
 }
 
 bool Playlist::removeTrack(const Track track)
 {
-    return TrackList::removeTrack(track);
+    return false;
 }

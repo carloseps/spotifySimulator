@@ -1,11 +1,11 @@
 #if !defined(PLAYLIST_HPP)
 #define PLAYLIST_HPP
 
-#include "../include/TrackList.hpp"
-#include "../include/User.hpp"
-#include "../include/PrivacyState.hpp"
-#include "../include/LinkedList.hpp"
-#include "../include/Track.hpp"
+#include <TrackList.hpp>
+#include <User.hpp>
+#include <PrivacyState.hpp>
+#include <LinkedList.hpp>
+#include <Track.hpp>
 #include <string>
 #include <chrono>
 
@@ -17,7 +17,7 @@ private:
   std::chrono::system_clock::time_point createdAt;
 
 public:
-  Playlist(){};
+  Playlist();
   Playlist(int, std::string, long, LinkedList<Track>, User, PrivacyState, std::chrono::system_clock::time_point);
 
   ~Playlist();

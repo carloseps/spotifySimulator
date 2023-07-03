@@ -12,7 +12,7 @@ protected:
   std::string password;
 
 public:
-  User(){};
+  User();
   User(int, const std::string, const std::string, const std::string);
 
   ~User();

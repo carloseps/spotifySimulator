@@ -2,7 +2,7 @@
 #define ARTIST_HPP
 
 #include <string>
-#include "../include/User.hpp"
+#include <User.hpp>
 
 class Artist : public User
 {
@@ -11,7 +11,7 @@ private:
   bool verified;
 
 public:
-  Artist(){};
+  Artist();
   Artist(int, const std::string, const std::string, const std::string,
          const std::string, bool);
 

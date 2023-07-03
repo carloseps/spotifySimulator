@@ -1,10 +1,10 @@
-#include "../include/Artist.hpp"
+#include <Artist.hpp>
+
+Artist::Artist() {}
 
 Artist::Artist(int id, const std::string username, const std::string password, const std::string email,
                const std::string name, bool verified)
-    : User(id, username, password, email), name(name), verified(verified)
-{
-}
+    : User(id, username, password, email), name(name), verified(verified) {}
 
 Artist::~Artist()
 {

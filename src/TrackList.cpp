@@ -1,13 +1,11 @@
-#include "../include/TrackList.hpp"
+#include <TrackList.hpp>
+
+TrackList::TrackList() {}
 
 TrackList::TrackList(int id, std::string name, long duration, LinkedList<Track> tracks)
-    : id(id), name(name), duration(duration), tracks(tracks)
-{
-}
+    : id(id), name(name), duration(duration), tracks(tracks) {}
 
-TrackList::~TrackList()
-{
-}
+TrackList::~TrackList() {}
 
 int TrackList::getId() const
 {

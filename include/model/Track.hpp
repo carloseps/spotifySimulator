@@ -1,8 +1,8 @@
 #if !defined(TRACK_HPP)
 #define TRACK_HPP
 
-#include "../include/LinkedList.hpp"
-#include "../include/Artist.hpp"
+#include <LinkedList.hpp>
+#include <Artist.hpp>
 #include <string>
 #include <chrono>
 
@@ -17,7 +17,8 @@ private:
   std::string url;
 
 public:
-  Track(){};
+  Track();
+
   Track(int, std::string, long, std::chrono::system_clock::time_point, LinkedList<Artist>, std::string);
 
   ~Track();

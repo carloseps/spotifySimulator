@@ -1,13 +1,11 @@
-#include "../include/User.hpp"
+#include <User.hpp>
+
+User::User() {}
 
 User::User(int id, const std::string username, const std::string email, const std::string password)
-    : id(id), username(username), email(email), password(password)
-{
-}
+    : id(id), username(username), email(email), password(password) {}
 
-User::~User()
-{
-}
+User::~User() {}
 
 int User::getId() const
 {

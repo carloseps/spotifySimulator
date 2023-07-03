@@ -1,4 +1,6 @@
-#include "../include/Track.hpp"
+#include <Track.hpp>
+
+Track::Track() {}
 
 Track::Track(int id, std::string name, long duration, std::chrono::system_clock::time_point releaseDate, LinkedList<Artist> artists, std::string url)
     : id(id), name(name), duration(duration), releaseDate(releaseDate), artists(artists), url(url)

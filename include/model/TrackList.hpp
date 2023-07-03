@@ -1,8 +1,8 @@
 #if !defined(TRACK_LIST_HPP)
 #define TRACK_LIST_HPP
 
-#include "../include/Track.hpp"
-#include "../include/LinkedList.hpp"
+#include <Track.hpp>
+#include <LinkedList.hpp>
 #include <string>
 
 class TrackList
@@ -14,7 +14,7 @@ protected:
   LinkedList<Track> tracks;
 
 public:
-  TrackList(){};
+  TrackList();
   TrackList(int, std::string, long, LinkedList<Track>);
 
   virtual ~TrackList() = 0;

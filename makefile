@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Wall -pedantic -std=c++17 -I./include -I./include/rest -I./lib
+CXXFLAGS = -Wall -pedantic -std=c++17 -I./include/model -I./include/rest -I./include/controller -I./lib
 LDFLAGS = -L./lib -lcurl
 
 SRC_DIR = src
@@ -13,7 +13,7 @@ all: $(EXECUTABLE)
 		@$(EXECUTABLE)
 		@$(MAKE) clean
 
-$(EXECUTABLE): $(SRC_DIR)/main.cpp
+$(EXECUTABLE): $(wildcard $(SRC_DIR)/*.cpp)
 	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
 
 clean:
