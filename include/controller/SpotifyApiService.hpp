@@ -5,6 +5,8 @@
 #include <RestClient.hpp>
 #include <Track.hpp>
 
+// TO DO: Finalizar método getTrack e implementar métodos: getArtist, getAlbum e search
+
 class SpotifyApiService
 {
 private:

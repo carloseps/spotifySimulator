@@ -4,17 +4,19 @@
 #include <string>
 #include <map>
 
-class URL
+// TO DO: Adicionar a opção de interpolar parâmetros do path
+
+class URLBuilder
 {
 private:
   std::string path;
   std::map<std::string, std::string> *params;
 
 public:
-  URL();
-  URL(std::string);
-  URL(std::string, std::map<std::string, std::string> *);
-  ~URL();
+  URLBuilder();
+  URLBuilder(std::string);
+  URLBuilder(std::string, std::map<std::string, std::string> *);
+  ~URLBuilder();
 
   std::string getPath() const;
   void setPath(std::string);
@@ -25,39 +27,39 @@ public:
   std::string buildUrlString() const;
 };
 
-URL::URL() {}
+URLBuilder::URLBuilder() {}
 
-URL::URL(std::string path) : path(path), params(nullptr) {}
+URLBuilder::URLBuilder(std::string path) : path(path), params(nullptr) {}
 
-URL::URL(std::string path, std::map<std::string, std::string> *params) : path(path), params(params) {}
+URLBuilder::URLBuilder(std::string path, std::map<std::string, std::string> *params) : path(path), params(params) {}
 
-URL::~URL()
+URLBuilder::~URLBuilder()
 {
   delete[] params;
 }
 
-std::string URL::getPath() const
+std::string URLBuilder::getPath() const
 {
   return this->path;
 }
 
-void URL::setPath(std::string path)
+void URLBuilder::setPath(std::string path)
 {
   this->path = path;
 }
 
-std::map<std::string, std::string> URL::getParams() const
+std::map<std::string, std::string> URLBuilder::getParams() const
 {
   return *(this->params);
 }
 
-void URL::setParams(std::map<std::string, std::string> *params)
+void URLBuilder::setParams(std::map<std::string, std::string> *params)
 {
   delete this->params;
   this->params = params;
 }
 
-std::string URL::buildUrlString() const
+std::string URLBuilder::buildUrlString() const
 {
   std::string urlString = this->path;
 
