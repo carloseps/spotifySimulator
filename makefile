@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -Wall -pedantic -std=c++17 -I./include/model -I./include/rest -I./include/controller -I./lib
-LDFLAGS = -L./lib -lcurl -lpqxx
+LDFLAGS = -L./lib -lcurl
 
 SRC_DIR = src
 BIN_DIR = bin
