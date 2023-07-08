@@ -23,7 +23,7 @@ void testConnection()
     // }
 
     sqlite3 *db;
-    int rc = sqlite3_open("../database/database.db", &db);
+    int rc = sqlite3_open("./database/database.db", &db);
 
     if (rc != SQLITE_OK)
     {
@@ -33,6 +33,30 @@ void testConnection()
     }
 
     std::cout << "Banco de dados aberto com sucesso!" << std::endl;
+
+    std::string sql = "CREATE TABLE IF NOT EXISTS TestTable ("
+                      "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                      "username VARCHAR(30) NOT NULL,"
+                      "email VARCHAR(80),"
+                      "password VARCHAR(50) NOT NULL"
+                      ");";
+
+    // std::string sql = "CREATE TABLE IF NOT EXISTS spotifySimulator ("
+    //                   "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+    //                   "username VARCHAR(30) NOT NULL,"
+    //                   "email VARCHAR(80),"
+    //                   "password VARCHAR(50) NOT NULL"
+    //                   ");";
+
+    char *errMsg = nullptr;
+    rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, &errMsg);
+
+    if (rc != SQLITE_OK) {
+        std::cout << "Erro ao criar a tabela: " << errMsg << std::endl;
+        sqlite3_free(errMsg);
+    } else {
+        std::cout << "Tabela criada com sucesso." << std::endl;
+    }
 
     sqlite3_close(db);
 }
