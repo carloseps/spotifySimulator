@@ -5,6 +5,7 @@
 #include <Artist.h>
 #include <string>
 #include <chrono>
+#include <odb/core.hxx>
 
 class Track
 {
@@ -15,6 +16,7 @@ private:
   std::chrono::system_clock::time_point releaseDate;
   LinkedList<Artist> artists;
   std::string url;
+  friend class odb::access;
 
 public:
   Track();

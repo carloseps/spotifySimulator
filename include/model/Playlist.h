@@ -2,7 +2,7 @@
 #define PLAYLIST_H
 
 #include <TrackList.h>
-#include <User.h>
+#include <User.hxx>
 #include <PrivacyState.h>
 #include <LinkedList.h>
 #include <Track.h>

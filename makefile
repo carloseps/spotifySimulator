@@ -1,6 +1,6 @@
 CXX = g++
-CXXFLAGS = -Wall -pedantic -std=c++17 -I./include/model -I./include/rest -I./include/controller -I./lib
-LDFLAGS = -L./lib -lcurl -lsqlite3
+CXXFLAGS = -Wall -pedantic -std=c++11 -I./include/model -I./include/rest -I./include/controller -I./lib
+LDFLAGS = -L./lib -lcurl -lodb -lodb-sqlite
 
 SRC_DIR = src
 BIN_DIR = bin

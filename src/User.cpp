@@ -1,4 +1,4 @@
-#include <User.h>
+#include <User.hxx>
 
 User::User() {}
 

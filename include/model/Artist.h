@@ -2,7 +2,7 @@
 #define ARTIST_H
 
 #include <string>
-#include <User.h>
+#include <User.hxx>
 
 class Artist : public User
 {

@@ -1,30 +1,43 @@
 #include <iostream>
-#include <sqlite3/sqlite3.h>
 #include <SpotifyApiService.hpp>
 #include <Track.h>
+#include <odb/sqlite/database.hxx>
+#include "../User-odb.hxx"
+
+// odb --database sqlite --generate-schema --generate-query --std c++11 include/model/User.hxx
 
 using namespace std;
 
 void testConnection()
 {
-    sqlite3 *db;
-    int rc = sqlite3_open("./database/database.db", &db);
+    User user;
+    user.setUsername("alana_castro");
+    user.setEmail("alana_castro@demasi.com.br");
+    user.setPassword("Dk22ObUtq8");
 
-    if (rc != SQLITE_OK)
-    {
-        std::cout << "Falha ao abrir ao banco de dados" << std::endl;
-        sqlite3_close(db);
-        return;
-    }
+    odb::sqlite::database db("./database/database.db");
+    odb::transaction t(db.begin());
+    db.persist(user);
 
-    std::cout << "Banco de dados aberto com sucesso!" << std::endl;
+    t.commit();
+    // sqlite3 *db;
+    // int rc = sqlite3_open("./database/database.db", &db);
 
-    std::string sql = "CREATE TABLE IF NOT EXISTS TestTable ("
-                      "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                      "username VARCHAR(30) NOT NULL,"
-                      "email VARCHAR(80),"
-                      "password VARCHAR(50) NOT NULL"
-                      ");";
+    // if (rc != SQLITE_OK)
+    // {
+    //     std::cout << "Falha ao abrir ao banco de dados" << std::endl;
+    //     sqlite3_close(db);
+    //     return;
+    // }
+
+    // std::cout << "Banco de dados aberto com sucesso!" << std::endl;
+
+    // std::string sql = "CREATE TABLE IF NOT EXISTS TestTable ("
+    //                   "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+    //                   "username VARCHAR(30) NOT NULL,"
+    //                   "email VARCHAR(80),"
+    //                   "password VARCHAR(50) NOT NULL"
+    //                   ");";
 
     // std::string sql = "CREATE TABLE IF NOT EXISTS spotifySimulator ("
     //                   "id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -33,20 +46,20 @@ void testConnection()
     //                   "password VARCHAR(50) NOT NULL"
     //                   ");";
 
-    char *errMsg = nullptr;
-    rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, &errMsg);
+    // char *errMsg = nullptr;
+    // rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, &errMsg);
 
-    if (rc != SQLITE_OK)
-    {
-        std::cout << "Erro ao criar a tabela: " << errMsg << std::endl;
-        sqlite3_free(errMsg);
-    }
-    else
-    {
-        std::cout << "Tabela criada com sucesso." << std::endl;
-    }
+    // if (rc != SQLITE_OK)
+    // {
+    //     std::cout << "Erro ao criar a tabela: " << errMsg << std::endl;
+    //     sqlite3_free(errMsg);
+    // }
+    // else
+    // {
+    //     std::cout << "Tabela criada com sucesso." << std::endl;
+    // }
 
-    sqlite3_close(db);
+    // sqlite3_close(db);
 }
 
 void clearTerminal()
