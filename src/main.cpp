@@ -1,27 +1,12 @@
 #include <iostream>
 #include <sqlite3/sqlite3.h>
 #include <SpotifyApiService.hpp>
-#include <Track.hpp>
-// #include "DBConnection.cpp"
+#include <Track.h>
 
 using namespace std;
 
 void testConnection()
 {
-    // DBConnection dbConnection(host, user, password, database);
-
-    // try
-    // {
-    //     dbConnection.executeQuery("SELECT 1");
-    //     std::cout << "Conexão com o banco de dados estabelecida com sucesso!" << std::endl;
-    //     return true;
-    // }
-    // catch (const std::exception &e)
-    // {
-    //     std::cout << "Falha ao conectar ao banco de dados: " << e.what() << std::endl;
-    //     return false;
-    // }
-
     sqlite3 *db;
     int rc = sqlite3_open("./database/database.db", &db);
 
@@ -51,10 +36,13 @@ void testConnection()
     char *errMsg = nullptr;
     rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, &errMsg);
 
-    if (rc != SQLITE_OK) {
+    if (rc != SQLITE_OK)
+    {
         std::cout << "Erro ao criar a tabela: " << errMsg << std::endl;
         sqlite3_free(errMsg);
-    } else {
+    }
+    else
+    {
         std::cout << "Tabela criada com sucesso." << std::endl;
     }
 

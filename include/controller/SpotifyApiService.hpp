@@ -1,9 +1,9 @@
 #if !defined(SPOTIFY_API_SERVICE_HPP)
 #define SPOTIFY_API_SERVICE_HPP
 
-#include <AuthenticationToken.hpp>
+#include <AuthenticationToken.h>
 #include <RestClient.hpp>
-#include <Track.hpp>
+#include <Track.h>
 
 // TO DO: Finalizar método getTrack e implementar métodos: getArtist, getAlbum e search
 

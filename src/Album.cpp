@@ -1,4 +1,4 @@
-#include <Album.hpp>
+#include <Album.h>
 
 Album::Album() {}
 

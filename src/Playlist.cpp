@@ -1,4 +1,4 @@
-#include <Playlist.hpp>
+#include <Playlist.h>
 
 Playlist::Playlist() {}
 
