@@ -290,9 +290,12 @@ int main(int argc, char const *argv[])
 {
     SpotifyApiService spotifyApiService;
 
-    for (auto track : spotifyApiService.searchTrackByName("poesia+acustica"))
+    auto tracks = spotifyApiService.searchTrackByArtist("Baco Exu do Blues");
+
+    for (auto track : tracks)
     {
-        // cout << track.getName() << " | " << track.getDuration() / 60000 << ":" << (track.getDuration() % 60000) * 60 << endl;
+        cout << track.getName() << endl;
+        cout << track.getUrl() << endl;
     }
 
     // Track *track = spotifyApiService.getTrack("6bTdZ7xfKp3NqqADJ8HLyj");

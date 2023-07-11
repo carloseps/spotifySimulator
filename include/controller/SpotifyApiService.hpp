@@ -108,7 +108,7 @@ std::vector<Track> SpotifyApiService::searchTrackByName(std::string trackName)
   URLBuilder *url = new URLBuilder("https://api.spotify.com/v1/search");
 
   std::map<std::string, std::string> urlParams;
-  urlParams["q"] = trackName;
+  urlParams["q"] = "track:" + trackName;
   urlParams["type"] = "track";
   url->setParams(&urlParams);
 
@@ -121,27 +121,76 @@ std::vector<Track> SpotifyApiService::searchTrackByName(std::string trackName)
 
   if (responseEntity->getStatus() == HttpStatus::OK)
   {
-    nlohmann::json data = responseEntity->getBody();
+    nlohmann::json data = responseEntity->getBody()["tracks"];
 
-    for (const auto trackData : data["tracks"])
+    for (const auto& trackData : data["items"])
     {
-      // Track *track = new Track();
+      Track *track = new Track();
 
-      // track->setName(trackData["name"].get<std::string>());
-      // track->setDuration(trackData["duration_ms"].get<long>());
-      // track->setUrl(trackData["href"].get<std::string>());
+      track->setName(trackData["name"].get<std::string>());
+      track->setDuration(trackData["duration_ms"].get<long>());
+      track->setUrl(trackData["external_urls"]["spotify"].get<std::string>());
 
-      // std::vector<Artist> artists;
+      std::vector<Artist> artists;
 
-      // for (const auto &element : trackData["artists"])
-      // {
-      //   Artist *artist = new Artist();
-      //   artist->setName(element["name"].get<std::string>());
-      //   artists.push_back(*artist);
-      // }
+      for (const auto &element : trackData["artists"])
+      {
+        Artist *artist = new Artist();
+        artist->setName(element["name"].get<std::string>());
+        artists.push_back(*artist);
+      }
 
-      // track->setArtists(artists);
-      // result.push_back(*track);
+      track->setArtists(artists);
+      result.push_back(*track);
+    }
+  }
+
+  return result;
+}
+
+std::vector<Track> SpotifyApiService::searchTrackByArtist(std::string artistName)
+{
+  std::vector<Track> result;
+  RestClient *restClient = new RestClient();
+  ResponseEntity<nlohmann::json> *responseEntity;
+
+  URLBuilder *url = new URLBuilder("https://api.spotify.com/v1/search");
+
+  std::map<std::string, std::string> urlParams;
+  urlParams["q"] = "artist:" + artistName;
+  urlParams["type"] = "track";
+  url->setParams(&urlParams);
+
+  this->validateToken();
+
+  std::map<std::string, std::string> headers;
+  headers["Authorization"] = "Bearer " + token->getAccessToken();
+
+  responseEntity = restClient->get(url->buildUrlString(), headers);
+
+  if (responseEntity->getStatus() == HttpStatus::OK)
+  {
+    nlohmann::json data = responseEntity->getBody()["tracks"];
+
+    for (const auto& trackData : data["items"])
+    {
+      Track *track = new Track();
+
+      track->setName(trackData["name"].get<std::string>());
+      track->setDuration(trackData["duration_ms"].get<long>());
+      track->setUrl(trackData["external_urls"]["spotify"].get<std::string>());
+
+      std::vector<Artist> artists;
+
+      for (const auto &element : trackData["artists"])
+      {
+        Artist *artist = new Artist();
+        artist->setName(element["name"].get<std::string>());
+        artists.push_back(*artist);
+      }
+
+      track->setArtists(artists);
+      result.push_back(*track);
     }
   }
 
