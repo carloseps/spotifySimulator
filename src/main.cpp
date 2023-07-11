@@ -290,19 +290,22 @@ int main(int argc, char const *argv[])
 {
     SpotifyApiService spotifyApiService;
 
-    Track *track = spotifyApiService.getTrack("5oI9blwsXC8AkTWw6wASY8");
+    for (auto track : spotifyApiService.searchTrackByName("poesia+acustica"))
+    {
+        // cout << track.getName() << " | " << track.getDuration() / 60000 << ":" << (track.getDuration() % 60000) * 60 << endl;
+    }
 
-    cout << track->getName() << endl;
-    cout << track->getDuration() << endl;
+    // Track *track = spotifyApiService.getTrack("6bTdZ7xfKp3NqqADJ8HLyj");
 
-    // Conexão com o banco e chamada do menu inicial
+    // cout << track->getName() << endl;
+    // cout << track->getDuration() << endl;
 
-    // std::string host = "192.168.1.68";
-    // std::string user = "postgres";
-    // std::string password = "000123";
-    // std::string database = "SpotifySimulator";
+    // for (auto element : track->getArtists())
+    // {
+    //     cout << element.getName() << endl;
+    // }
 
-    testConnection();
+    // testConnection();
 
     // runMenu(&mainPage);
 

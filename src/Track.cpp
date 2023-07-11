@@ -1,9 +1,10 @@
 #include <Track.h>
+#include <vector>
 
 Track::Track() {}
 
-Track::Track(int id, std::string name, long duration, std::chrono::system_clock::time_point releaseDate, LinkedList<Artist> artists, std::string url)
-    : id(id), name(name), duration(duration), releaseDate(releaseDate), artists(artists), url(url)
+Track::Track(int id, std::string name, long duration, std::vector<Artist> artists, std::string url)
+    : id(id), name(name), duration(duration), artists(artists), url(url)
 {
 }
 
@@ -41,22 +42,12 @@ void Track::setDuration(long duration)
     this->duration = duration;
 }
 
-std::chrono::system_clock::time_point Track::getReleaseDate() const
-{
-    return releaseDate;
-}
-
-void Track::setReleaseDate(const std::chrono::system_clock::time_point releaseDate)
-{
-    this->releaseDate = releaseDate;
-}
-
-LinkedList<Artist> Track::getArtists() const
+std::vector<Artist> Track::getArtists() const
 {
     return artists;
 }
 
-void Track::setArtists(const LinkedList<Artist> artists)
+void Track::setArtists(const std::vector<Artist> artists)
 {
     this->artists = artists;
 }

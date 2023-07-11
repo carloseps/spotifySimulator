@@ -1,10 +1,9 @@
 #if !defined(TRACK_H)
 #define TRACK_H
 
-#include <LinkedList.h>
 #include <Artist.h>
 #include <string>
-#include <chrono>
+#include <vector>
 
 class Track
 {
@@ -12,14 +11,13 @@ private:
   int id;
   std::string name;
   long duration;
-  std::chrono::system_clock::time_point releaseDate;
-  LinkedList<Artist> artists;
+  std::vector<Artist> artists;
   std::string url;
 
 public:
   Track();
 
-  Track(int, std::string, long, std::chrono::system_clock::time_point, LinkedList<Artist>, std::string);
+  Track(int, std::string, long, std::vector<Artist>, std::string);
 
   ~Track();
 
@@ -32,11 +30,8 @@ public:
   long getDuration() const;
   void setDuration(long);
 
-  std::chrono::system_clock::time_point getReleaseDate() const;
-  void setReleaseDate(const std::chrono::system_clock::time_point);
-
-  LinkedList<Artist> getArtists() const;
-  void setArtists(const LinkedList<Artist>);
+  std::vector<Artist> getArtists() const;
+  void setArtists(const std::vector<Artist>);
 
   std::string getUrl() const;
   void setUrl(const std::string);
