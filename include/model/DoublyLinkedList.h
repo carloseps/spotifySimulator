@@ -2,39 +2,70 @@
 #define DOUBLYLINKEDLIST_H
 
 #include "Node.h"
+#include <iostream>
 #include <string>
 
 class DoublyLinkedList {
 private:
     Node<std::string>* head;
     Node<std::string>* tail;
-    int numElements;
 
 public:
-    DoublyLinkedList();
-    ~DoublyLinkedList();
+    DoublyLinkedList() {
+        this->getHead()->setNext(this->getTail());
+    }
 
-    template<typename T>
-    Node<T>* getHead() const;
+    ~DoublyLinkedList(){
+        while(!this->isEmpty()){
+            delete this->getHead()->getNext();
+        }
+    }
 
-    template<typename T>
-    Node<T>* getTail() const;
+    Node<std::string>* getHead() const{ return this->head; }
 
-    template<typename T>
-    Node<T>* searchByValue(std::string);
+    Node<std::string>* getTail() const{ return this->tail; }
 
-    bool insertAtEnd(std::string);
+    Node<std::string>* searchByValue(std::string value){
+        Node<std::string>* node = this->getHead();
+        
+        while (node->getNext() != nullptr){
+            if(node->getValue() == value){
+                return node;
+            } else node = node->getNext();
+        }
+        return nullptr;
+    }
 
-    bool insertAtBeginning(std::string);
+    void print(){
+        Node<std::string>* node = this->getHead();
+        int i = 0;
+        while(node->getNext() != nullptr){
+            std::cout << "Posição " << i <<  " - " << node->getValue() << std::endl;
+        }
+    }
 
-    void print();
+    bool isEmpty(){
+        if(this->getHead()->getNext() == this->getTail()){
+            return true;
+        } else return false;
+    }
 
-    bool isEmpty();
+    bool swap(Node<std::string>* node1, Node<std::string>* node2){
+        Node<std::string>* nodeAux = node1;
+        node1->setPrevious(node2->getPrevious());
+        node1->setNext(node2->getNext());
+        node1->getNext()->setPrevious(node1);
+        node1->getPrevious()->setNext(node1);
 
-    int getNumElements() const;
+        node2->setPrevious(nodeAux->getPrevious());
+        node2->setNext(nodeAux->getNext());
+        node2->getNext()->setPrevious(node2);
+        node2->getPrevious()->setNext(node2);
 
-    template<typename T>
-    bool swap(Node<T>* node1, Node<T>* node2);
+        delete nodeAux;
+
+        return true;
+    }
 };
 
 #endif
