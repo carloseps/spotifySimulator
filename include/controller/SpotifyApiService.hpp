@@ -82,7 +82,7 @@ Track *SpotifyApiService::getTrack(std::string id)
 
     track->setName(data["name"].get<std::string>());
     track->setDuration(data["duration_ms"].get<long>());
-    track->setUrl(data["href"].get<std::string>());
+    track->setUrl(data["preview_url"].get<std::string>());
 
     std::vector<Artist> artists;
 
@@ -129,7 +129,7 @@ std::vector<Track> SpotifyApiService::searchTrackByName(std::string trackName)
 
       track->setName(trackData["name"].get<std::string>());
       track->setDuration(trackData["duration_ms"].get<long>());
-      track->setUrl(trackData["external_urls"]["spotify"].get<std::string>());
+      track->setUrl(trackData["preview_url"].get<std::string>());
 
       std::vector<Artist> artists;
 
@@ -178,7 +178,7 @@ std::vector<Track> SpotifyApiService::searchTrackByArtist(std::string artistName
 
       track->setName(trackData["name"].get<std::string>());
       track->setDuration(trackData["duration_ms"].get<long>());
-      track->setUrl(trackData["external_urls"]["spotify"].get<std::string>());
+      track->setUrl(trackData["preview_url"].get<std::string>());
 
       std::vector<Artist> artists;
 

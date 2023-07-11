@@ -1,0 +1,6 @@
+#if !defined(PLAYER_SERVICE_HPP)
+#define PLAYER_SERVICE_HPP
+
+
+
+#endif // PLAYER_SERVICE_HPP

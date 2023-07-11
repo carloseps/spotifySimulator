@@ -2,6 +2,8 @@
 #include <sqlite3/sqlite3.h>
 #include <SpotifyApiService.hpp>
 #include <Track.h>
+#include <sndfile.h>
+#include <curl/curl.h>
 
 using namespace std;
 
@@ -286,6 +288,10 @@ bool mainPage()
     return true;
 }
 
+static size_t WriteData(void* ptr, size_t size, size_t nmemb, FILE* stream) {
+    return fwrite(ptr, size, nmemb, stream);
+}
+
 int main(int argc, char const *argv[])
 {
     SpotifyApiService spotifyApiService;
@@ -296,6 +302,38 @@ int main(int argc, char const *argv[])
     {
         cout << track.getName() << endl;
         cout << track.getUrl() << endl;
+    }
+
+    std::string MP3_URL = "https://p.scdn.co/mp3-preview/d72df913287a33253c6415c0c65431b2122f695f?cid=d793a5bbf03749b1a5454ac339001842";
+
+    std::string TMP_FILE_PATH = "./tmp/output.mp3";
+
+    FILE* outputFile = fopen(TMP_FILE_PATH.c_str(), "wb");
+
+    if (!outputFile) {
+        std::cout << "Failed to open output file." << std::endl;
+    }
+
+    std::cout << "File opened" << std::endl;
+
+    CURL* curl = curl_easy_init();
+    if (!curl) {
+        std::cout << "Failed to initialize curl." << std::endl;
+        fclose(outputFile);
+    }
+
+    std::cout << "Curl initialized" << std::endl;
+
+    curl_easy_setopt(curl, CURLOPT_URL, MP3_URL.c_str());
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteData);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, outputFile);
+
+    CURLcode res = curl_easy_perform(curl);
+    fclose(outputFile);
+    curl_easy_cleanup(curl);
+
+    if (res != CURLE_OK) {
+        std::cout << "Failed to download MP3 file: " << curl_easy_strerror(res) << std::endl;
     }
 
     // Track *track = spotifyApiService.getTrack("6bTdZ7xfKp3NqqADJ8HLyj");
