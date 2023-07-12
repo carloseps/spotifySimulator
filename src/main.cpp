@@ -356,12 +356,13 @@ int main(int argc, char const *argv[])
 {
 
     // auto tracks = spotifyApiService.searchTrackByArtist("Baco Exu do Blues");
+    auto tracks = spotifyApiService.searchTrackByName("Coladin");
 
-    // for (auto track : tracks)
-    // {
-    //     cout << track.getName() << endl;
-    //     cout << track.getUrl() << endl;
-    // }
+    for (auto track : tracks)
+    {
+        cout << track.getName() << endl;
+        cout << track.getUrl() << endl;
+    }
 
     // std::string MP3_URL = "https://p.scdn.co/mp3-preview/d72df913287a33253c6415c0c65431b2122f695f?cid=d793a5bbf03749b1a5454ac339001842";
 
@@ -381,7 +382,7 @@ int main(int argc, char const *argv[])
 
     // testConnection();
 
-    runMenu(&mainPage);
+    // runMenu(&mainPage);
 
     return 0;
 }

@@ -123,11 +123,16 @@ std::vector<Track> SpotifyApiService::searchTrackByName(std::string trackName)
 
     for (const auto &trackData : data["items"])
     {
+      
       Track *track = new Track();
 
       track->setName(trackData["name"].get<std::string>());
       track->setDuration(trackData["duration_ms"].get<long>());
-      track->setUrl(trackData["preview_url"].get<std::string>());
+
+      if (!trackData["preview_url"].is_null())
+      {
+        track->setUrl(trackData["preview_url"].get<std::string>());
+      }
 
       std::vector<std::string> artists;
 
@@ -175,7 +180,11 @@ std::vector<Track> SpotifyApiService::searchTrackByArtist(std::string artistName
 
       track->setName(trackData["name"].get<std::string>());
       track->setDuration(trackData["duration_ms"].get<long>());
-      track->setUrl(trackData["preview_url"].get<std::string>());
+
+      if (!trackData["preview_url"].is_null())
+      {
+        track->setUrl(trackData["preview_url"].get<std::string>());
+      }
 
       std::vector<std::string> artists;
 
