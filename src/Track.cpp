@@ -3,7 +3,7 @@
 
 Track::Track() {}
 
-Track::Track(int id, std::string name, long duration, std::vector<Artist> artists, std::string url)
+Track::Track(int id, std::string name, long duration, std::vector<std::string> artists, std::string url)
     : id(id), name(name), duration(duration), artists(artists), url(url)
 {
 }
@@ -42,12 +42,12 @@ void Track::setDuration(long duration)
     this->duration = duration;
 }
 
-std::vector<Artist> Track::getArtists() const
+std::vector<std::string> Track::getArtists() const
 {
     return artists;
 }
 
-void Track::setArtists(const std::vector<Artist> artists)
+void Track::setArtists(const std::vector<std::string> artists)
 {
     this->artists = artists;
 }

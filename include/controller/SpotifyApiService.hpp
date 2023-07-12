@@ -84,13 +84,11 @@ Track *SpotifyApiService::getTrack(std::string id)
     track->setDuration(data["duration_ms"].get<long>());
     track->setUrl(data["preview_url"].get<std::string>());
 
-    std::vector<Artist> artists;
+    std::vector<std::string> artists;
 
     for (const auto &element : data["artists"])
     {
-      Artist *artist = new Artist();
-      artist->setName(element["name"].get<std::string>());
-      artists.push_back(*artist);
+      artists.push_back(element["name"].get<std::string>());
     }
 
     track->setArtists(artists);
@@ -123,7 +121,7 @@ std::vector<Track> SpotifyApiService::searchTrackByName(std::string trackName)
   {
     nlohmann::json data = responseEntity->getBody()["tracks"];
 
-    for (const auto& trackData : data["items"])
+    for (const auto &trackData : data["items"])
     {
       Track *track = new Track();
 
@@ -131,16 +129,15 @@ std::vector<Track> SpotifyApiService::searchTrackByName(std::string trackName)
       track->setDuration(trackData["duration_ms"].get<long>());
       track->setUrl(trackData["preview_url"].get<std::string>());
 
-      std::vector<Artist> artists;
+      std::vector<std::string> artists;
 
-      for (const auto &element : trackData["artists"])
+      for (const auto &element : data["artists"])
       {
-        Artist *artist = new Artist();
-        artist->setName(element["name"].get<std::string>());
-        artists.push_back(*artist);
+        artists.push_back(element["name"].get<std::string>());
       }
 
       track->setArtists(artists);
+
       result.push_back(*track);
     }
   }
@@ -172,7 +169,7 @@ std::vector<Track> SpotifyApiService::searchTrackByArtist(std::string artistName
   {
     nlohmann::json data = responseEntity->getBody()["tracks"];
 
-    for (const auto& trackData : data["items"])
+    for (const auto &trackData : data["items"])
     {
       Track *track = new Track();
 
@@ -180,16 +177,15 @@ std::vector<Track> SpotifyApiService::searchTrackByArtist(std::string artistName
       track->setDuration(trackData["duration_ms"].get<long>());
       track->setUrl(trackData["preview_url"].get<std::string>());
 
-      std::vector<Artist> artists;
+      std::vector<std::string> artists;
 
-      for (const auto &element : trackData["artists"])
+      for (const auto &element : data["artists"])
       {
-        Artist *artist = new Artist();
-        artist->setName(element["name"].get<std::string>());
-        artists.push_back(*artist);
+        artists.push_back(element["name"].get<std::string>());
       }
 
       track->setArtists(artists);
+
       result.push_back(*track);
     }
   }

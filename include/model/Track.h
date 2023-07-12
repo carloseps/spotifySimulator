@@ -1,7 +1,6 @@
 #if !defined(TRACK_H)
 #define TRACK_H
 
-#include <Artist.h>
 #include <string>
 #include <vector>
 
@@ -11,13 +10,13 @@ private:
   int id;
   std::string name;
   long duration;
-  std::vector<Artist> artists;
+  std::vector<std::string> artists;
   std::string url;
 
 public:
   Track();
 
-  Track(int, std::string, long, std::vector<Artist>, std::string);
+  Track(int, std::string, long, std::vector<std::string>, std::string);
 
   ~Track();
 
@@ -30,8 +29,8 @@ public:
   long getDuration() const;
   void setDuration(long);
 
-  std::vector<Artist> getArtists() const;
-  void setArtists(const std::vector<Artist>);
+  std::vector<std::string> getArtists() const;
+  void setArtists(const std::vector<std::string>);
 
   std::string getUrl() const;
   void setUrl(const std::string);

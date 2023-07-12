@@ -2,7 +2,7 @@
 
 Album::Album() {}
 
-Album::Album(int id, std::string name, long duration, LinkedList<Track> tracks, Artist artist, std::chrono::system_clock::time_point releaseDate)
+Album::Album(int id, std::string name, long duration, LinkedList<Track> tracks, std::string artist, std::chrono::system_clock::time_point releaseDate)
     : TrackList(id, name, duration, tracks), artist(artist), releaseDate(releaseDate)
 {
 }
@@ -11,12 +11,12 @@ Album::~Album()
 {
 }
 
-Artist Album::getArtist()
+std::string Album::getArtist()
 {
     return artist;
 }
 
-void Album::setArtist(Artist artist)
+void Album::setArtist(std::string artist)
 {
     this->artist = artist;
 }

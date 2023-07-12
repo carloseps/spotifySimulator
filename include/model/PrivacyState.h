@@ -1,7 +1,7 @@
 #if !defined(PRIVACY_STATE_HPP)
 #define PRIVACY_STATE_HPP
 
-enum PrivacyState
+enum class PrivacyState
 {
   PUBLIC,
   LISTEN_ONLY,
