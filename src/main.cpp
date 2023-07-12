@@ -1,10 +1,13 @@
 #include <iostream>
+#include <string>
 #include <sqlite3/sqlite3.h>
 #include <SpotifyApiService.hpp>
 #include <Track.h>
 #include <Player.hpp>
 
 using namespace std;
+
+SpotifyApiService spotifyApiService;
 
 void testConnection()
 {
@@ -110,6 +113,36 @@ bool acessMyPlaylists(/*User user*/)
     return true;
 }
 
+int partition(std::vector<Track>& tracks, int low, int high) {
+    std::string pivot = tracks[high].getName();
+    int i = low - 1;
+
+    for (int j = low; j < high; j++) {
+        if (tracks[j].getName() < pivot) {
+            i++;
+            std::swap(tracks[i], tracks[j]);
+        }
+    }
+
+    std::swap(tracks[i + 1], tracks[high]);
+    return i + 1;
+}
+
+// Quicksort 
+void quickSort(std::vector<Track>& tracks, int low, int high) {
+    if (low < high) {
+        int pivotIndex = partition(tracks, low, high);
+
+        quickSort(tracks, low, pivotIndex - 1);
+        quickSort(tracks, pivotIndex + 1, high);
+    }
+}
+
+std::vector<Track> sortFindedTracks(std::vector<Track> tracks) {
+    quickSort(tracks, 0, tracks.size() - 1);
+    return tracks;
+}
+
 bool searchSong()
 {
     int option;
@@ -146,12 +179,44 @@ bool searchSong()
 
         if (option == 1)
         {
-            // searchSongByTitle
+            clearTerminal();
+            std::cout << "Informe o título da música: " << std::endl;
+            std::string entryMusicName;
+
+            // Pra limpar o buffer de entrada e não bugar o getline
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+            std::getline(std::cin, entryMusicName);
+            //std::cin >> entryMusicName;
+
+            std::vector<Track> findedTracks = sortFindedTracks(spotifyApiService.searchTrackByName(entryMusicName));
+
+            for (auto track : findedTracks) {
+                cout << track.getName() << endl;
+                //cout << track.getUrl() << endl;
+            }
+
             return true;
         }
         else if (option == 2)
         {
-            // searchSongByAuthor
+            clearTerminal();
+            std::cout << "Informe o nome do artista: " << std::endl;
+            std::string entryArtistName;
+
+            // Pra limpar o buffer de entrada e não bugar o getline
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+            std::getline(std::cin, entryArtistName);
+            //std::cin >> entryArtistName;
+
+            std::vector<Track> findedTracks = sortFindedTracks(spotifyApiService.searchTrackByName(entryArtistName));
+
+            for (auto track : findedTracks) {
+                cout << track.getName() << endl;
+                //cout << track.getUrl() << endl;
+            }
+            
             return true;
         }
         else if (option == 3)
@@ -289,21 +354,20 @@ bool mainPage()
 
 int main(int argc, char const *argv[])
 {
-    SpotifyApiService spotifyApiService;
 
-    auto tracks = spotifyApiService.searchTrackByArtist("Baco Exu do Blues");
+    // auto tracks = spotifyApiService.searchTrackByArtist("Baco Exu do Blues");
 
-    for (auto track : tracks)
-    {
-        cout << track.getName() << endl;
-        cout << track.getUrl() << endl;
-    }
+    // for (auto track : tracks)
+    // {
+    //     cout << track.getName() << endl;
+    //     cout << track.getUrl() << endl;
+    // }
 
-    std::string MP3_URL = "https://p.scdn.co/mp3-preview/d72df913287a33253c6415c0c65431b2122f695f?cid=d793a5bbf03749b1a5454ac339001842";
+    // std::string MP3_URL = "https://p.scdn.co/mp3-preview/d72df913287a33253c6415c0c65431b2122f695f?cid=d793a5bbf03749b1a5454ac339001842";
 
-    Player *player = new Player();
+    // Player *player = new Player();
 
-    player->playTrack(MP3_URL);
+    // player->playTrack(MP3_URL);
 
     // Track *track = spotifyApiService.getTrack("6bTdZ7xfKp3NqqADJ8HLyj");
 
@@ -317,7 +381,7 @@ int main(int argc, char const *argv[])
 
     // testConnection();
 
-    // runMenu(&mainPage);
+    runMenu(&mainPage);
 
     return 0;
 }
