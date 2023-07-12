@@ -117,6 +117,8 @@ std::vector<Track> SpotifyApiService::searchTrackByName(std::string trackName)
   std::map<std::string, std::string> headers;
   headers["Authorization"] = "Bearer " + token->getAccessToken();
 
+  std::cout << url->buildUrlString() << std::endl;
+
   responseEntity = restClient->get(url->buildUrlString(), headers);
 
   if (responseEntity->getStatus() == HttpStatus::OK)
@@ -125,11 +127,13 @@ std::vector<Track> SpotifyApiService::searchTrackByName(std::string trackName)
 
     for (const auto& trackData : data["items"])
     {
+      // std::cout << data["items"] << std::endl;
+
       Track *track = new Track();
 
       track->setName(trackData["name"].get<std::string>());
       track->setDuration(trackData["duration_ms"].get<long>());
-      track->setUrl(trackData["preview_url"].get<std::string>());
+      // track->setUrl(trackData["preview_url"].get<std::string>());
 
       std::vector<Artist> artists;
 

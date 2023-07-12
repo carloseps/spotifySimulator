@@ -291,7 +291,7 @@ int main(int argc, char const *argv[])
 {
     SpotifyApiService spotifyApiService;
 
-    auto tracks = spotifyApiService.searchTrackByArtist("Baco Exu do Blues");
+    auto tracks = spotifyApiService.searchTrackByName("coladin");
 
     for (auto track : tracks)
     {
@@ -299,7 +299,7 @@ int main(int argc, char const *argv[])
         cout << track.getUrl() << endl;
     }
 
-    std::string MP3_URL = "https://p.scdn.co/mp3-preview/d72df913287a33253c6415c0c65431b2122f695f?cid=d793a5bbf03749b1a5454ac339001842";
+    std::string MP3_URL = "https://p.scdn.co/mp3-preview/eb229e4e76fcda25556a3b608aff73324250d4c1?cid=d793a5bbf03749b1a5454ac339001842";
 
     Player *player = new Player();
 
