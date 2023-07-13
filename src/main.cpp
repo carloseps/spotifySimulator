@@ -64,7 +64,7 @@ void clearTerminal()
 
 void entryError()
 {
-    std::cerr << "Digite uma opção válida! Use somente números" << std::endl;
+    std::cerr << "Entrada inválida!" << std::endl;
 }
 
 bool mainPage();
