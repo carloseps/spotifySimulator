@@ -9,6 +9,8 @@ using namespace std;
 
 SpotifyApiService spotifyApiService;
 
+std::vector<Track>* searchedTracksResult = new std::vector<Track>();
+
 void testConnection()
 {
     sqlite3 *db;
@@ -143,6 +145,47 @@ std::vector<Track> sortFindedTracks(std::vector<Track> tracks) {
     return tracks;
 }
 
+bool selectSongFromFindedTracks()
+{
+    int option;
+    size_t i;
+    std::cout << "__________________________________________________________________________" << std::endl;
+    do
+    {
+        for (i = 0; i < searchedTracksResult->size(); i++){
+            std::cout << "|                                         " << std::endl;
+            std::cout << "|     " << i << " - " << (*searchedTracksResult)[i].getName() << std::endl;
+            std::cout << "|_________________________________________________________________________" << std::endl;
+        }
+        std::cout << "|                                         " << std::endl;
+        std::cout << "|     " << (i + 1) << " - Sair" << std::endl;
+        std::cout << "|_________________________________________________________________________" << std::endl;
+
+        std::cout << "Digite o número da música que deseja ouvir: " << std::endl;
+        std::string entry;
+        std::cin >> entry;
+
+        if (isValidEntry(entry))
+        {
+            option = std::stoi(entry, nullptr, 16);
+        }
+        else
+        {
+            return false;
+        } if (option > (int)(i + 1) || option < 0){
+            return false;
+        }
+
+        Player *player = new Player();
+
+        player->playTrack((*searchedTracksResult)[option].getUrl());
+
+        return true;
+        
+    } while(option != (int)(i + 1));
+    return true;
+}
+
 bool searchSong()
 {
     int option;
@@ -191,12 +234,13 @@ bool searchSong()
 
             std::vector<Track> findedTracks = sortFindedTracks(spotifyApiService.searchTrackByName(entryMusicName));
 
-            for (auto track : findedTracks) {
-                cout << track.getName() << endl;
-                //cout << track.getUrl() << endl;
+            if((int)findedTracks.size() > 0){
+                searchedTracksResult = &findedTracks;
+                runMenu(selectSongFromFindedTracks);
+                
+                return true;
             }
-
-            return true;
+            return false;
         }
         else if (option == 2)
         {
@@ -212,12 +256,13 @@ bool searchSong()
 
             std::vector<Track> findedTracks = sortFindedTracks(spotifyApiService.searchTrackByName(entryArtistName));
 
-            for (auto track : findedTracks) {
-                cout << track.getName() << endl;
-                //cout << track.getUrl() << endl;
+            if((int)findedTracks.size() > 0){
+                searchedTracksResult = &findedTracks;
+                runMenu(selectSongFromFindedTracks);
+                
+                return true;
             }
-            
-            return true;
+            return false;
         }
         else if (option == 3)
         {
@@ -356,13 +401,13 @@ int main(int argc, char const *argv[])
 {
 
     // auto tracks = spotifyApiService.searchTrackByArtist("Baco Exu do Blues");
-    auto tracks = spotifyApiService.searchTrackByName("Coladin");
+    // auto tracks = spotifyApiService.searchTrackByName("Coladin");
 
-    for (auto track : tracks)
-    {
-        cout << track.getName() << endl;
-        cout << track.getUrl() << endl;
-    }
+    // for (auto track : tracks)
+    // {
+    //     cout << track.getName() << endl;
+    //     cout << track.getUrl() << endl;
+    // }
 
     // std::string MP3_URL = "https://p.scdn.co/mp3-preview/d72df913287a33253c6415c0c65431b2122f695f?cid=d793a5bbf03749b1a5454ac339001842";
 
@@ -382,7 +427,7 @@ int main(int argc, char const *argv[])
 
     // testConnection();
 
-    // runMenu(&mainPage);
+    runMenu(&mainPage);
 
     return 0;
 }
