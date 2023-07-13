@@ -2,8 +2,8 @@
 
 TrackList::TrackList() {}
 
-TrackList::TrackList(int id, std::string name, long duration, LinkedList<Track> tracks)
-    : id(id), name(name), duration(duration), tracks(tracks) {}
+TrackList::TrackList(int id, std::string name, std::vector<Track> tracks)
+    : id(id), name(name), tracks(tracks) {}
 
 TrackList::~TrackList() {}
 
@@ -27,22 +27,12 @@ void TrackList::setName(const std::string name)
     this->name = name;
 }
 
-long TrackList::getDuration() const
-{
-    return duration;
-}
-
-void TrackList::setDuration(long duration)
-{
-    this->duration = duration;
-}
-
-LinkedList<Track> TrackList::getTracks() const
+std::vector<Track> TrackList::getTracks() const
 {
     return tracks;
 }
 
-void TrackList::setTracks(const LinkedList<Track> tracks)
+void TrackList::setTracks(const std::vector<Track> tracks)
 {
     this->tracks = tracks;
 }

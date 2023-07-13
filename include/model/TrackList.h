@@ -4,18 +4,18 @@
 #include <Track.h>
 #include <LinkedList.h>
 #include <string>
+#include <vector>
 
 class TrackList
 {
 protected:
   int id;
   std::string name;
-  long duration;
-  LinkedList<Track> tracks;
+  std::vector<Track> tracks;
 
 public:
   TrackList();
-  TrackList(int, std::string, long, LinkedList<Track>);
+  TrackList(int, std::string, std::vector<Track>);
 
   virtual ~TrackList() = 0;
 
@@ -25,11 +25,8 @@ public:
   std::string getName() const;
   void setName(const std::string);
 
-  long getDuration() const;
-  void setDuration(long);
-
-  LinkedList<Track> getTracks() const;
-  void setTracks(const LinkedList<Track>);
+  std::vector<Track> getTracks() const;
+  void setTracks(const std::vector<Track>);
 };
 
 #endif // TRACK_LIST_H

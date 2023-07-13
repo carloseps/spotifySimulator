@@ -2,8 +2,8 @@
 
 Playlist::Playlist() {}
 
-Playlist::Playlist(int id, std::string name, long duration, LinkedList<Track> tracks, User owner, PrivacyState privacyState, std::chrono::system_clock::time_point createdAt)
-    : TrackList(id, name, duration, tracks), owner(owner), privacyState(privacyState), createdAt(createdAt) {}
+Playlist::Playlist(int id, std::string name, std::vector<Track> tracks, User owner, PrivacyState privacyState)
+    : TrackList(id, name, tracks), owner(owner), privacyState(privacyState) {}
 
 Playlist::~Playlist() {}
 
@@ -25,16 +25,6 @@ PrivacyState Playlist::getPrivacyState() const
 void Playlist::setPrivacyState(PrivacyState privacyState)
 {
     this->privacyState = privacyState;
-}
-
-std::chrono::system_clock::time_point Playlist::getCreatedAt() const
-{
-    return createdAt;
-}
-
-void Playlist::setCreatedAt(const std::chrono::system_clock::time_point createdAt)
-{
-    this->createdAt = createdAt;
 }
 
 bool Playlist::addTrack(const Track track)

@@ -34,16 +34,18 @@ User *UserDao::findByUsername(std::string username)
     return nullptr;
   }
 
-  std::string query = "SELECT * FROM users WHERE username = '" + username + "';";
+  std::string query = "SELECT * FROM users WHERE username = ?";
 
   sqlite3_stmt *stmt;
   rc = sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
   if (rc != SQLITE_OK)
   {
-    std::cout << "Failed to execute query" << std::endl;
+    std::cout << "An error occurred" << std::endl;
     return nullptr;
   }
+
+  sqlite3_bind_text(stmt, 1, username.c_str(), -1, SQLITE_STATIC);
 
   rc = sqlite3_step(stmt);
 
@@ -82,16 +84,18 @@ User *UserDao::findByEmail(std::string email)
     return nullptr;
   }
 
-  std::string query = "SELECT * FROM users WHERE email = '" + email + "';";
+  std::string query = "SELECT * FROM users WHERE email = ?";
 
   sqlite3_stmt *stmt;
   rc = sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL);
 
   if (rc != SQLITE_OK)
   {
-    std::cout << "Failed to execute query" << std::endl;
+    std::cout << "An error occurred" << std::endl;
     return nullptr;
   }
+
+  sqlite3_bind_text(stmt, 1, email.c_str(), -1, SQLITE_STATIC);
 
   rc = sqlite3_step(stmt);
 

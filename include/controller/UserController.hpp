@@ -2,6 +2,7 @@
 #define USER_CONTROLLER_HPP
 
 #include <User.h>
+#include <UserDao.hpp>
 #include <string>
 
 class UserController
@@ -13,15 +14,16 @@ public:
   UserController();
   ~UserController();
   User *login(std::string, std::string);
+  bool registrar(std::string, std::string, std::string);
 };
 
 UserController::UserController() {}
 
 UserController::~UserController() {}
 
-User *login(std::string email, std::string password)
+User *UserController::login(std::string email, std::string password)
 {
-  User *user = userDao.findByEmail(email);
+  User *user = this->userDao.findByEmail(email);
 
   if (user == nullptr)
   {
@@ -36,6 +38,19 @@ User *login(std::string email, std::string password)
   }
 
   return user;
+}
+
+bool UserController::registrar(std::string username, std::string email, std::string password)
+{
+  User *user = new User(username, email, password);
+
+  if (userDao.create(user))
+  {
+    std::cout << "Usuario criado com sucesso" << std::endl;
+    return true;
+  }
+
+  return false;
 }
 
 #endif // USER_CONTROLLER_HPP
