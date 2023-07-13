@@ -13,6 +13,7 @@ protected:
 
 public:
   User();
+  User(const std::string, const std::string, const std::string);
   User(int, const std::string, const std::string, const std::string);
 
   ~User();

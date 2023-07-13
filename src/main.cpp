@@ -4,6 +4,7 @@
 #include <SpotifyApiService.hpp>
 #include <Track.h>
 #include <Player.hpp>
+#include <UserDao.hpp>
 
 using namespace std;
 
@@ -412,13 +413,30 @@ int main(int argc, char const *argv[])
 {
 
     // auto tracks = spotifyApiService.searchTrackByArtist("Baco Exu do Blues");
-    // auto tracks = spotifyApiService.searchTrackByName("Coladin");
+    auto tracks = spotifyApiService.searchTrackByName("Coladin");
 
-    // for (auto track : tracks)
-    // {
-    //     cout << track.getName() << endl;
-    //     cout << track.getUrl() << endl;
-    // }
+    for (auto track : tracks)
+    {
+        cout << track.getName() << endl;
+        cout << track.getUrl() << endl;
+    }
+
+    UserDao userDao;
+
+    User *user = new User("jeff.js", "jeff@testmail.com", "12345rew");
+
+    userDao.create(user);
+
+    // User *user = userDao.findByUsername("admin");
+    user = userDao.findByEmail("jeff@testmail.com");
+
+    if (user != nullptr)
+    {
+        std::cout << user->getId() << std::endl;
+        std::cout << user->getUsername() << std::endl;
+        std::cout << user->getEmail() << std::endl;
+        std::cout << user->getPassword() << std::endl;
+    }
 
     std::string MP3_URL = "https://p.scdn.co/mp3-preview/d72df913287a33253c6415c0c65431b2122f695f?cid=d793a5bbf03749b1a5454ac339001842";
 
