@@ -73,7 +73,10 @@ void Player::playMP3()
     {
         std::string TMP_OGG_FILE_PATH = "./tmp/output.ogg";
 
-        std::string command = "paplay ";
+        std::string command = "pulseaudio --start";
+        system(command.c_str());
+
+        command = "paplay ";
         command += TMP_OGG_FILE_PATH;
 
         system(command.c_str());
