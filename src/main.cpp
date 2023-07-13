@@ -69,7 +69,6 @@ void entryError()
 
 bool mainPage();
 bool searchSong();
-bool searchPlaylist();
 
 void runMenu(bool (*function)())
 {
@@ -109,11 +108,6 @@ bool isValidEntry(std::string entry)
         std::cout << "A entrada informada representa um valor fora do intervalo válido para um inteiro." << std::endl;
         return false;
     }
-}
-
-bool acessMyPlaylists(/*User user*/)
-{
-    return true;
 }
 
 int partition(std::vector<Track> &tracks, int low, int high)
@@ -187,6 +181,7 @@ bool selectSongFromFindedTracks()
         }
         if (option == (int)(i))
         {
+            runMenu(&mainPage);
             return true;
         }
 
@@ -199,6 +194,98 @@ bool selectSongFromFindedTracks()
     } while ((int)(i) != option);
     return true;
 }
+
+bool acessMyPlaylists()
+{
+    UserDao userDao;
+
+    User *user = new User("Patrick", "patrick@testmail.com", "12345rew");
+
+    //userDao.create(user);
+
+    int option;
+    do
+    {
+        std::cout << " _________________________________________" << std::endl;
+        std::cout << "|                                         |" << std::endl;
+        std::cout << "|          Bem-vindo, " + user->getUsername() + "             |" << std::endl;
+        std::cout << "|_________________________________________|" << std::endl;
+        std::cout << "|                                         |" << std::endl;
+        std::cout << "|             Suas playlists:             |" << std::endl;
+        std::cout << "|                                         |" << std::endl;
+        std::cout << "|   1 - Pra relaxar (20 músicas)          |" << std::endl;
+        std::cout << "|                                         |" << std::endl;
+        std::cout << "|   2 - Estudar LP1 (20 músicas)          |" << std::endl;
+        std::cout << "|                                         |" << std::endl;
+        std::cout << "|   3 - Treino (20 músicas)               |" << std::endl;
+        std::cout << "|                                         |" << std::endl;
+        std::cout << "|   4 - Sair                              |" << std::endl;
+        std::cout << "|_________________________________________|" << std::endl;
+        std::cout << "|                                         |" << std::endl;
+        std::cout << "|       Digite uma das opções acima       |" << std::endl;
+        std::cout << "|_________________________________________|" << std::endl;
+
+        std::string entry;
+        std::cin >> entry;
+
+        if (isValidEntry(entry))
+        {
+            option = std::stoi(entry, nullptr, 16);
+        }
+        else
+        {
+            return false;
+        }
+
+        if (option == 1)
+        {
+            std::vector<Track> findedTracks = sortFindedTracks(spotifyApiService.searchTrackByName("chill relax calm peace rest sleep"));
+
+            if ((int)findedTracks.size() > 0)
+            {
+                searchedTracksResult = &findedTracks;
+                runMenu(selectSongFromFindedTracks);
+
+                return true;
+            }
+        }
+        else if (option == 2)
+        {
+            std::vector<Track> findedTracks = sortFindedTracks(spotifyApiService.searchTrackByName("meditation study"));
+
+            if ((int)findedTracks.size() > 0)
+            {
+                searchedTracksResult = &findedTracks;
+                runMenu(selectSongFromFindedTracks);
+
+                return true;
+            }
+        }
+        else if (option == 3)
+        {
+            std::vector<Track> findedTracks = sortFindedTracks(spotifyApiService.searchTrackByName("phonk"));
+
+            if ((int)findedTracks.size() > 0)
+            {
+                searchedTracksResult = &findedTracks;
+                runMenu(selectSongFromFindedTracks);
+
+                return true;
+            }
+        }
+        else if (option == 4)
+        {
+            runMenu(&mainPage);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    } while (option != 4);
+    return true;
+}
+
 
 bool searchSong()
 {
@@ -297,60 +384,6 @@ bool searchSong()
     return true;
 }
 
-bool searchPlaylist()
-{
-    int option;
-    do
-    {
-        std::cout << " _________________________________________" << std::endl;
-        std::cout << "|                                         |" << std::endl;
-        std::cout << "|      SpotifySimulator - Pesquisar       |" << std::endl;
-        std::cout << "|_________________________________________|" << std::endl;
-        std::cout << "|                                         |" << std::endl;
-        std::cout << "|   1 - Buscar por nome da playlist       |" << std::endl;
-        std::cout << "|                                         |" << std::endl;
-        std::cout << "|   2 - Voltar ao menu principal          |" << std::endl;
-        std::cout << "|                                         |" << std::endl;
-        std::cout << "|   3 - Sair                              |" << std::endl;
-        std::cout << "|_________________________________________|" << std::endl;
-        std::cout << "|                                         |" << std::endl;
-        std::cout << "|       Digite uma das opções acima       |" << std::endl;
-        std::cout << "|_________________________________________|" << std::endl;
-
-        std::string entry;
-        std::cin >> entry;
-
-        if (isValidEntry(entry))
-        {
-            option = std::stoi(entry, nullptr, 16);
-        }
-        else
-        {
-            return false;
-        }
-
-        if (option == 1)
-        {
-            // searchSongByTitle
-            return true;
-        }
-        else if (option == 2)
-        {
-            runMenu(&mainPage);
-            return true;
-        }
-        else if (option == 3)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    } while (option != 3);
-    return true;
-}
-
 bool mainPage()
 {
     int valueEntry;
@@ -363,12 +396,11 @@ bool mainPage()
         std::cout << "|                                                                     |" << std::endl;
         std::cout << "|                              Pesquisa:                              |" << std::endl;
         std::cout << "|    1 - Buscar música                                                |" << std::endl;
-        std::cout << "|    2 - Buscar playlist                                              |" << std::endl;
         std::cout << "|_____________________________________________________________________|" << std::endl;
         std::cout << "|                                                                     |" << std::endl;
         std::cout << "|                               Usuário:                              |" << std::endl;
-        std::cout << "|    3 - Acessar minhas playlists                                     |" << std::endl;
-        std::cout << "|    4 - Sair                                                         |" << std::endl;
+        std::cout << "|    2 - Acessar minhas playlists                                     |" << std::endl;
+        std::cout << "|    3 - Sair                                                         |" << std::endl;
         std::cout << "|_____________________________________________________________________|" << std::endl;
         std::cout << "|                                                                     |" << std::endl;
         std::cout << "|                    Digite uma das opções acima                      |" << std::endl;
@@ -393,15 +425,10 @@ bool mainPage()
         }
         else if (valueEntry == 2)
         {
-            runMenu(&searchPlaylist);
+            runMenu(&acessMyPlaylists);
             return true;
         }
         else if (valueEntry == 3)
-        {
-            std::cout << "MENU 3: " << std::endl;
-            return true;
-        }
-        else if (valueEntry == 4)
         {
             return true;
         }
@@ -409,7 +436,7 @@ bool mainPage()
         {
             return false;
         }
-    } while (valueEntry != 4);
+    } while (valueEntry != 3);
     return true;
 }
 
@@ -423,9 +450,9 @@ int main(int argc, char const *argv[])
 
     // User *user = new User("carloss", "c3ps@testmail.com", "12345rew");
 
-    // // userDao.create(user);
+    // userDao.create(user);
 
-    // // User *user = userDao.findByUsername("admin");
+    // //User *user = userDao.findByUsername("admin");
     // user = userDao.findByEmail("c3ps@testmail.com");
 
     // if (user != nullptr)
@@ -436,11 +463,11 @@ int main(int argc, char const *argv[])
     //     std::cout << user->getPassword() << std::endl;
     // }
 
-    std::string MP3_URL = "https://p.scdn.co/mp3-preview/d72df913287a33253c6415c0c65431b2122f695f?cid=d793a5bbf03749b1a5454ac339001842";
+    // std::string MP3_URL = "https://p.scdn.co/mp3-preview/d72df913287a33253c6415c0c65431b2122f695f?cid=d793a5bbf03749b1a5454ac339001842";
 
-    Player *player = new Player();
+    // Player *player = new Player();
 
-    //player->playTrack(MP3_URL);
+    // player->playTrack(MP3_URL);
 
     // Track *track = spotifyApiService.getTrack("6bTdZ7xfKp3NqqADJ8HLyj");
 
