@@ -3,74 +3,14 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
 #include <curl/curl.h>
-#include <sndfile.h>
-
-static const std::string OUTPUT_PATH = "./tmp/output.mp3";
-
-static const std::string SONG_PATH = "./tmp/song.wav";
 
 class Player
 {
 private:
     bool downloadTempMP3(std::string);
-    bool convertMP3toWAV(const std::string& inputFilename, const std::string& outputFilename) {
-        SF_INFO inputInfo{};
-        SF_INFO outputInfo{};
-        inputInfo.format = 0;
-
-        SNDFILE* inputFile = sf_open(inputFilename.c_str(), SFM_READ, &inputInfo);
-        if (!inputFile) {
-            std::cerr << "Erro ao abrir o arquivo de entrada" << std::endl;
-            return false;
-        }
-
-        outputInfo = inputInfo;
-        outputInfo.format = SF_FORMAT_WAV | SF_FORMAT_PCM_16;
-
-        SNDFILE* outputFile = sf_open(outputFilename.c_str(), SFM_WRITE, &outputInfo);
-        if (!outputFile) {
-            std::cerr << "Erro ao criar o arquivo de saída" << std::endl;
-            sf_close(inputFile);
-            return false;
-        }
-
-        constexpr int bufferSize = 1024;
-        std::vector<short> buffer(bufferSize * inputInfo.channels);
-
-        sf_count_t framesRead;
-        while ((framesRead = sf_readf_short(inputFile, buffer.data(), bufferSize)) > 0) {
-            sf_writef_short(outputFile, buffer.data(), framesRead);
-        }
-
-        sf_close(inputFile);
-        sf_close(outputFile);
-
-        std::cout << "Conversão deu certo! " << inputFilename << " -> " << outputFilename << std::endl;
-
-        return true;
-    }
-
-    void playSong() {
-
-        convertMP3toWAV(OUTPUT_PATH, SONG_PATH);
-
-        std::string command = "pulseaudio --start" ;
-
-        // Executar o comando usando system()
-        int result = std::system(command.c_str());
-
-        command = "paplay " + SONG_PATH;
-
-        // Executar o comando usando system()
-        result = std::system(command.c_str());
-
-        // Verificar se a execução foi bem-sucedida
-        if (result == -1) {
-            std::cerr << "Erro ao reproduzir o áudio" << std::endl;
-        }
-    }
+    void playMP3();
+    bool convertMP3ToOgg();
 
 public:
     void playTrack(std::string);
@@ -80,26 +20,31 @@ void Player::playTrack(std::string url)
 {
     if (downloadTempMP3(url))
     {
-        playSong();
-        std::cout << "Track downloaded" << std::endl;
+        std::cout << "Reproduzindo Musica [Pressione Ctrl + C para parar]" << std::endl;
+        playMP3();
     }
 }
 
-static size_t WriteData(void* ptr, size_t size, size_t nmemb, FILE* stream) {
+static size_t WriteData(void *ptr, size_t size, size_t nmemb, FILE *stream)
+{
     return fwrite(ptr, size, nmemb, stream);
 }
 
 bool Player::downloadTempMP3(std::string url)
 {
-    FILE* outputFile = fopen(OUTPUT_PATH.c_str(), "wb");
+    std::string TMP_FILE_PATH = "./tmp/output.mp3";
 
-    if (!outputFile) {
+    FILE *outputFile = fopen(TMP_FILE_PATH.c_str(), "wb");
+
+    if (!outputFile)
+    {
         std::cout << "Failed to open output file." << std::endl;
         return false;
     }
 
-    CURL* curl = curl_easy_init();
-    if (!curl) {
+    CURL *curl = curl_easy_init();
+    if (!curl)
+    {
         std::cout << "Failed to initialize curl." << std::endl;
         fclose(outputFile);
         return false;
@@ -113,12 +58,42 @@ bool Player::downloadTempMP3(std::string url)
     fclose(outputFile);
     curl_easy_cleanup(curl);
 
-    if (res != CURLE_OK) {
+    if (res != CURLE_OK)
+    {
         std::cout << "Failed to download MP3 file: " << curl_easy_strerror(res) << std::endl;
         return false;
     }
 
     return true;
+}
+
+void Player::playMP3()
+{
+    if (convertMP3ToOgg())
+    {
+        std::string TMP_OGG_FILE_PATH = "./tmp/output.ogg";
+
+        std::string command = "paplay ";
+        command += TMP_OGG_FILE_PATH;
+
+        system(command.c_str());
+    }
+}
+
+bool Player::convertMP3ToOgg()
+{
+    std::string TMP_INPUT_FILE_PATH = "./tmp/output.mp3";
+    std::string TMP_OUTPUT_FILE_PATH = "./tmp/output.ogg";
+    const std::string command = "ffmpeg -hide_banner -loglevel error -y -i " + TMP_INPUT_FILE_PATH + " -c:a libvorbis " + TMP_OUTPUT_FILE_PATH;
+
+    int result = system(command.c_str());
+
+    if (result == 0)
+    {
+        return true;
+    }
+
+    return false;
 }
 
 #endif // PLAYER_HPP

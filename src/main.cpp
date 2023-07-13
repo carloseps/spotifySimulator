@@ -9,7 +9,7 @@ using namespace std;
 
 SpotifyApiService spotifyApiService;
 
-std::vector<Track>* searchedTracksResult = new std::vector<Track>();
+std::vector<Track> *searchedTracksResult = new std::vector<Track>();
 
 void testConnection()
 {
@@ -115,12 +115,15 @@ bool acessMyPlaylists(/*User user*/)
     return true;
 }
 
-int partition(std::vector<Track>& tracks, int low, int high) {
+int partition(std::vector<Track> &tracks, int low, int high)
+{
     std::string pivot = tracks[high].getName();
     int i = low - 1;
 
-    for (int j = low; j < high; j++) {
-        if (tracks[j].getName() < pivot) {
+    for (int j = low; j < high; j++)
+    {
+        if (tracks[j].getName() < pivot)
+        {
             i++;
             std::swap(tracks[i], tracks[j]);
         }
@@ -130,9 +133,11 @@ int partition(std::vector<Track>& tracks, int low, int high) {
     return i + 1;
 }
 
-// Quicksort 
-void quickSort(std::vector<Track>& tracks, int low, int high) {
-    if (low < high) {
+// Quicksort
+void quickSort(std::vector<Track> &tracks, int low, int high)
+{
+    if (low < high)
+    {
         int pivotIndex = partition(tracks, low, high);
 
         quickSort(tracks, low, pivotIndex - 1);
@@ -140,7 +145,8 @@ void quickSort(std::vector<Track>& tracks, int low, int high) {
     }
 }
 
-std::vector<Track> sortFindedTracks(std::vector<Track> tracks) {
+std::vector<Track> sortFindedTracks(std::vector<Track> tracks)
+{
     quickSort(tracks, 0, tracks.size() - 1);
     return tracks;
 }
@@ -152,7 +158,8 @@ bool selectSongFromFindedTracks()
     std::cout << "__________________________________________________________________________" << std::endl;
     do
     {
-        for (i = 0; i < searchedTracksResult->size(); i++){
+        for (i = 0; i < searchedTracksResult->size(); i++)
+        {
             std::cout << "|                                         " << std::endl;
             std::cout << "|     " << i << " - " << (*searchedTracksResult)[i].getName() << std::endl;
             std::cout << "|_________________________________________________________________________" << std::endl;
@@ -172,7 +179,9 @@ bool selectSongFromFindedTracks()
         else
         {
             return false;
-        } if (option > (int)(i + 1) || option < 0){
+        }
+        if (option > (int)(i + 1) || option < 0)
+        {
             return false;
         }
 
@@ -181,8 +190,8 @@ bool selectSongFromFindedTracks()
         player->playTrack((*searchedTracksResult)[option].getUrl());
 
         return true;
-        
-    } while(option != (int)(i + 1));
+
+    } while (option != (int)(i + 1));
     return true;
 }
 
@@ -230,14 +239,15 @@ bool searchSong()
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
             std::getline(std::cin, entryMusicName);
-            //std::cin >> entryMusicName;
+            // std::cin >> entryMusicName;
 
             std::vector<Track> findedTracks = sortFindedTracks(spotifyApiService.searchTrackByName(entryMusicName));
 
-            if((int)findedTracks.size() > 0){
+            if ((int)findedTracks.size() > 0)
+            {
                 searchedTracksResult = &findedTracks;
                 runMenu(selectSongFromFindedTracks);
-                
+
                 return true;
             }
             return false;
@@ -252,14 +262,15 @@ bool searchSong()
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
             std::getline(std::cin, entryArtistName);
-            //std::cin >> entryArtistName;
+            // std::cin >> entryArtistName;
 
             std::vector<Track> findedTracks = sortFindedTracks(spotifyApiService.searchTrackByName(entryArtistName));
 
-            if((int)findedTracks.size() > 0){
+            if ((int)findedTracks.size() > 0)
+            {
                 searchedTracksResult = &findedTracks;
                 runMenu(selectSongFromFindedTracks);
-                
+
                 return true;
             }
             return false;
@@ -409,11 +420,11 @@ int main(int argc, char const *argv[])
     //     cout << track.getUrl() << endl;
     // }
 
-    // std::string MP3_URL = "https://p.scdn.co/mp3-preview/d72df913287a33253c6415c0c65431b2122f695f?cid=d793a5bbf03749b1a5454ac339001842";
+    std::string MP3_URL = "https://p.scdn.co/mp3-preview/d72df913287a33253c6415c0c65431b2122f695f?cid=d793a5bbf03749b1a5454ac339001842";
 
-    // Player *player = new Player();
+    Player *player = new Player();
 
-    // player->playTrack(MP3_URL);
+    player->playTrack(MP3_URL);
 
     // Track *track = spotifyApiService.getTrack("6bTdZ7xfKp3NqqADJ8HLyj");
 
