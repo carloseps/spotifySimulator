@@ -156,7 +156,7 @@ bool selectSongFromFindedTracks()
 {
     int option;
     size_t i;
-    std::cout << "__________________________________________________________________________" << std::endl;
+    std::cout << "_________________________________________________________________________" << std::endl;
     do
     {
         for (i = 0; i < searchedTracksResult->size(); i++)
@@ -166,7 +166,7 @@ bool selectSongFromFindedTracks()
             std::cout << "|_________________________________________________________________________" << std::endl;
         }
         std::cout << "|                                         " << std::endl;
-        std::cout << "|     " << (i + 1) << " - Sair" << std::endl;
+        std::cout << "|     " << i << " - Sair" << std::endl;
         std::cout << "|_________________________________________________________________________" << std::endl;
 
         std::cout << "Digite o número da música que deseja ouvir: " << std::endl;
@@ -175,15 +175,19 @@ bool selectSongFromFindedTracks()
 
         if (isValidEntry(entry))
         {
-            option = std::stoi(entry, nullptr, 16);
+            option = std::stoi(entry, nullptr);
         }
         else
         {
             return false;
         }
-        if (option > (int)(i + 1) || option < 0)
+        if (option > (int)(i) || option < 0)
         {
             return false;
+        }
+        if (option == (int)(i))
+        {
+            return true;
         }
 
         Player *player = new Player();
@@ -192,7 +196,7 @@ bool selectSongFromFindedTracks()
 
         return true;
 
-    } while (option != (int)(i + 1));
+    } while ((int)(i) != option);
     return true;
 }
 
@@ -436,7 +440,7 @@ int main(int argc, char const *argv[])
 
     Player *player = new Player();
 
-    player->playTrack(MP3_URL);
+    //player->playTrack(MP3_URL);
 
     // Track *track = spotifyApiService.getTrack("6bTdZ7xfKp3NqqADJ8HLyj");
 
