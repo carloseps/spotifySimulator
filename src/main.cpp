@@ -6,6 +6,8 @@
 
 using namespace std;
 
+// sudo apt-get install libcurl4-openssl-dev libsqlite3-dev
+
 void testConnection()
 {
     sqlite3 *db;
@@ -289,21 +291,23 @@ bool mainPage()
 
 int main(int argc, char const *argv[])
 {
-    SpotifyApiService spotifyApiService;
+    // SpotifyApiService spotifyApiService;
 
-    auto tracks = spotifyApiService.searchTrackByName("coladin");
+    // auto tracks = spotifyApiService.searchTrackByName("coladin");
 
-    for (auto track : tracks)
-    {
-        cout << track.getName() << endl;
-        cout << track.getUrl() << endl;
-    }
+    // for (auto track : tracks)
+    // {
+    //     cout << track.getName() << endl;
+    //     cout << track.getUrl() << endl;
+    // }
 
-    std::string MP3_URL = "https://p.scdn.co/mp3-preview/eb229e4e76fcda25556a3b608aff73324250d4c1?cid=d793a5bbf03749b1a5454ac339001842";
+    std::string MP3_URL = "https://p.scdn.co/mp3-preview/e23efd82bed73c1a538fd2396ede6292da8d92dd?cid=0b297fa8a249464ba34f5861d4140e58";
 
     Player *player = new Player();
 
     player->playTrack(MP3_URL);
+
+    std::cout << "Reproducao Parada" << std::endl;
 
     // Track *track = spotifyApiService.getTrack("6bTdZ7xfKp3NqqADJ8HLyj");
 

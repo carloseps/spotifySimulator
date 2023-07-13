@@ -20,7 +20,7 @@ void Player::playTrack(std::string url)
 {
     if (downloadTempMP3(url))
     {
-        std::cout << "Track downloaded" << std::endl;
+        std::cout << "Reproduzindo Musica [Pressione Ctrl + C para parar]" << std::endl;
         playMP3();
     }
 }
@@ -73,7 +73,7 @@ void Player::playMP3()
     {
         std::string TMP_OGG_FILE_PATH = "./tmp/output.ogg";
 
-        std::string command = "paplay";
+        std::string command = "paplay ";
         command += TMP_OGG_FILE_PATH;
 
         system(command.c_str());
@@ -83,8 +83,8 @@ void Player::playMP3()
 bool Player::convertMP3ToOgg()
 {
     std::string TMP_INPUT_FILE_PATH = "./tmp/output.mp3";
-    std::string TMP_OUTPUT_FILE_PATH = "./tmp/output.0gg";
-    const std::string command = "ffmpeg -i" + TMP_INPUT_FILE_PATH + "-c:a libvorbis" + TMP_OUTPUT_FILE_PATH;
+    std::string TMP_OUTPUT_FILE_PATH = "./tmp/output.ogg";
+    const std::string command = "ffmpeg -hide_banner -loglevel error -y -i " + TMP_INPUT_FILE_PATH + " -c:a libvorbis " + TMP_OUTPUT_FILE_PATH;
 
     int result = system(command.c_str());
 
