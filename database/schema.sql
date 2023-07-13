@@ -1,6 +1,3 @@
-CREATE DATABASE IF NOT EXISTS spotify;
-USE spotify;
-
 CREATE TABLE IF NOT EXISTS Users (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     username VARCHAR(255) NOT NULL,
@@ -21,10 +18,10 @@ CREATE TABLE IF NOT EXISTS TrackLists (
 CREATE TABLE IF NOT EXISTS TrackList_Track (
     tracklist_id INTEGER NOT NULL,
     track_id INTEGER NOT NULL,
-    PRIMARY KEY (tracklist_id, track_id),
-    FOREIGN KEY tracklist_id REFERENCES TrackList(id),
-    FOREIGN KEY track_id REFERENCES Track(id)
-)
+    PRIMARY KEY(tracklist_id, track_id),
+    FOREIGN KEY(tracklist_id) REFERENCES TrackList(id),
+    FOREIGN KEY(track_id) REFERENCES Track(id)
+);
 
 CREATE TABLE IF NOT EXISTS Playlist (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
